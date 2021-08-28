@@ -4,3 +4,6 @@
     font-family: 'Nanum Gothic', sans-serif !important;
 }
 
+html, body, #__next {
+    height: 100%;
+}

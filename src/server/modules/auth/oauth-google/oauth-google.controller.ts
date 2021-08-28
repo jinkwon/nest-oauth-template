@@ -33,7 +33,7 @@ export class OauthGoogleController {
       level: member.level,
     };
 
-    if (member.level <= 1) {
+    if (member.level < 1) {
       return res.redirect('/?eCode=401');
     }
 

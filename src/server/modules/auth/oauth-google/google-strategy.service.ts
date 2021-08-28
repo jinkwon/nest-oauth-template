@@ -57,7 +57,7 @@ export class GoogleStrategyService extends PassportStrategy(Strategy, 'google') 
       return await this.memberService.create({
         name: `${[req.user.firstName || '', req.user.lastName || ''].join(' ')}`,
         email: req.user.email,
-        level: 0,
+        level: 1,
       });
     }
   }

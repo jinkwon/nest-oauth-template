@@ -10,7 +10,7 @@ import { KakaoStrategyService } from './kakao-strategy.service';
 import { JwtService } from '@nestjs/jwt';
 import { jwtConst } from '../constants';
 
-@Controller('oauth-google')
+@Controller('oauth-kakao')
 export class OauthKakaoController {
   constructor(
     private readonly jwtService: JwtService,
@@ -19,14 +19,14 @@ export class OauthKakaoController {
   }
 
   @Get()
-  @UseGuards(AuthGuard('google'))
-  async googleAuth(@Req() req) {
+  @UseGuards(AuthGuard('kakao'))
+  async kakaoAuth(@Req() req) {
   }
 
   @Get('callback')
-  @UseGuards(AuthGuard('google'))
-  async googleAuthRedirect(@Req() req, @Res() res) {
-    const member = await this.service.googleLogin(req);
+  @UseGuards(AuthGuard('kakao'))
+  async kakaoAuthRedirect(@Req() req, @Res() res) {
+    const member = await this.service.kakaoLogin(req);
     const payload = {
       name: member.name,
       email: member.email,

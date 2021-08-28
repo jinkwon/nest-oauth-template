@@ -21,19 +21,19 @@ import { KakaoStrategyService } from './oauth-kakao/kakao-strategy.service';
   ],
   providers: [
     GoogleStrategyService,
-    // KakaoStrategyService,
+    KakaoStrategyService,
     JwtStrategy
   ],
   exports: [
     GoogleStrategyService,
-    // KakaoStrategyService,
+    KakaoStrategyService,
     PassportModule,
     JwtStrategy,
   ],
   controllers: [
     AuthController,
     OauthGoogleController,
-    // OauthKakaoController,
+    OauthKakaoController,
   ],
 })
 export class AuthModule {}

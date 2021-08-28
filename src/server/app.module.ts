@@ -30,12 +30,12 @@ console.log(`[${PHASE}] reloaded`);
       getDbOptions(
         ConnectionType.Default
       )),
-    // client
-    ViewModule,
-
     // services
     AuthModule,
     MemberModule,
+
+    // client
+    ViewModule,
   ],
   controllers: [AppController],
   providers: [AppService]

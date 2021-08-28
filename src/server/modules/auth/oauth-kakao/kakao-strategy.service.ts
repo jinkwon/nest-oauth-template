@@ -3,7 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import {
   Strategy,
   VerifyCallback
-} from 'passport-google-oauth20';
+} from 'passport-kakao';
 import { config } from 'dotenv';
 import ENV from '../../../env';
 import { MemberService } from '../../member/member.service';
@@ -19,8 +19,7 @@ export class KakaoStrategyService extends PassportStrategy(Strategy, 'google') {
     super({
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_SECRET,
-      callbackURL: `${ENV.host}/oauth-google/callback`,
-      scope: ['email', 'profile'],
+      callbackURL: `${ENV.host}/oauth-kakao/callback`,
     });
   }
 
@@ -44,9 +43,9 @@ export class KakaoStrategyService extends PassportStrategy(Strategy, 'google') {
     return null;
   }
 
-  async googleLogin(req) {
+  async kakaoLogin(req) {
     if (!req.user) {
-      return 'No user from google';
+      return 'No user from kakao';
     }
 
     const member = await this.validateMember(req.user.email);
