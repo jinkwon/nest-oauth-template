@@ -5,11 +5,12 @@
   "author": "",
   "license": "MIT",
   "scripts": {
-    "dev": "cross-env PHASE=dev NEXT_PHASE=local nest start -p ./tsconfig.server.json --watch",
+    "dev": "yarn run start:dev",
     "prebuild": "rimraf dist",
     "build": "next build && nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
+    "start:dev": "cross-env PHASE=dev NEXT_PHASE=local nest start -p ./tsconfig.server.json --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
