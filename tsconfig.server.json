@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2017",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": ".",
+    "incremental": true,
+    "skipLibCheck": true,
+    "jsx": "preserve",
+    "paths": {
+      "@core/*": ["src/core/*"],
+      "@interfaces/*": ["src/core/interfaces/*"],
+      "@enums/*": ["src/core/enums/*"],
+      "@schemas/*": ["src/core/schemas/*"],
+
+      "@entities/*": ["src/server/entities/*"],
+      "@repositories/*": ["src/server/repositories/*"]
+    }
+  },
+  "include": [
+    "index.d.ts",
+    "src/core/**/*",
+    "src/server/**/*",
+    "src/main.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

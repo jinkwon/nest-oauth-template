@@ -1,0 +1,11 @@
+{
+  "extends": "next",
+  "rules": {
+    "react/no-unescaped-entities": "off",
+    "react/react-in-jsx-cscpoe": "off",
+    "react/display-name": ["off", {
+      "ignoreTranspilerName": false
+    }],
+    "@next/next/no-page-custom-font": "off"
+  }
+}

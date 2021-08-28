@@ -1,0 +1,61 @@
+{
+  "compilerOptions": {
+    "noEmit": true,
+    "strict": false,
+    "jsx": "preserve",
+    "allowJs": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "typeRoots": ["./node_modules/@types"],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "outDir": ".next",
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "importHelpers": true,
+    "lib": ["dom", "es2017"],
+    "baseUrl": ".",
+    "paths": {
+      "@core/*": ["src/core/*"],
+      "@interfaces/*": ["src/core/interfaces/*"],
+      "@enums/*": ["src/core/enums/*"],
+      "@schemas/*": ["src/core/schemas/*"],
+
+      "@antd": ["src/client/antd-modules.ts"],
+      "@components/*": ["src/client/components/*"],
+      "@constants/*": ["src/client/constants/*"],
+      "@assets/*": ["src/client/assets/*"],
+      "@env/*": ["src/client/env/*"],
+      "@services/*": ["src/client/services/*"],
+      "@store/*": ["src/client/store/*"],
+      "@styles/*": ["src/client/styles/*"],
+      "@utils/*": ["src/client/utils/*"]
+    },
+    "module": "esnext",
+    "noImplicitReturns": false,
+    "noImplicitThis": false,
+    "noImplicitAny": false,
+    "resolveJsonModule": true,
+    "strictNullChecks": false,
+    "target": "es6",
+    "isolatedModules": true,
+    "downlevelIteration": true
+  },
+  "include": [
+    "index.d.ts",
+    "src/core/**/*",
+    "next-env.d.ts",
+    "src/client/index.d.ts",
+    "src/client/**/*.ts",
+    "src/pages/**/*.tsx"
+  ],
+  "exclude": [
+    ".next"
+  ]
+}

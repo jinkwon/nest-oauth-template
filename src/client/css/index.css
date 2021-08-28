@@ -1,0 +1,6 @@
+@import 'https://fonts.googleapis.com/earlyaccess/nanumgothic.css';
+@import '~antd/dist/antd.compact.css';
+* {
+    font-family: 'Nanum Gothic', sans-serif !important;
+}
+
