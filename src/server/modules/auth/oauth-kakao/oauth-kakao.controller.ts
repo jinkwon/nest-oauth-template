@@ -8,7 +8,7 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { KakaoStrategyService } from './kakao-strategy.service';
 import { JwtService } from '@nestjs/jwt';
-import { jwtConst } from '../constants';
+import { DEFAULT_LEVEL, jwtConst } from '../constants';
 
 @Controller('oauth-kakao')
 export class OauthKakaoController {
@@ -33,7 +33,7 @@ export class OauthKakaoController {
       level: member.level,
     };
 
-    if (member.level <= 1) {
+    if (member.level < DEFAULT_LEVEL) {
       return res.redirect('/?eCode=401');
     }
 

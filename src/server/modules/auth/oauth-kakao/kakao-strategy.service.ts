@@ -7,29 +7,29 @@ import {
 import { config } from 'dotenv';
 import ENV from '../../../env';
 import { MemberService } from '../../member/member.service';
+import { DEFAULT_LEVEL } from '../constants';
 
 config();
 
 @Injectable()
-export class KakaoStrategyService extends PassportStrategy(Strategy, 'google') {
+export class KakaoStrategyService extends PassportStrategy(Strategy, 'kakao') {
 
   constructor(
     private readonly memberService: MemberService
   ) {
     super({
-      clientID: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_SECRET,
+      clientID: process.env.KAKAO_CLIENT_ID,
+      clientSecret: process.env.KAKAO_SECRET,
       callbackURL: `${ENV.host}/oauth-kakao/callback`,
     });
+    console.log(process.env.KAKAO_CLIENT_ID, process.env.KAKAO_SECRET);
   }
 
   async validate(accessToken: string, refreshToken: string, profile: any, done: VerifyCallback): Promise<any> {
-    const { name, emails, photos } = profile;
     const member = {
-      email: emails[0].value,
-      firstName: name.givenName,
-      lastName: name.familyName,
-      picture: photos[0].value,
+      email: profile?._json?.kakao_account?.email || '',
+      firstName: profile?.username,
+      picture: profile?._json?.properties?.profile_image,
       accessToken
     }
     done(null, member);
@@ -56,7 +56,7 @@ export class KakaoStrategyService extends PassportStrategy(Strategy, 'google') {
       return await this.memberService.create({
         name: `${[req.user.firstName || '', req.user.lastName || ''].join(' ')}`,
         email: req.user.email,
-        level: 0,
+        level: DEFAULT_LEVEL,
       });
     }
   }

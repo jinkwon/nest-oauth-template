@@ -5,3 +5,5 @@ export const jwtConst = {
   cookieName: '__sid',
   expiresIn: `${DUR_1_DAY}s`,
 };
+
+export const DEFAULT_LEVEL: number = 1;

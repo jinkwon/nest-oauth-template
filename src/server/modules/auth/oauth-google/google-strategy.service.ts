@@ -7,6 +7,7 @@ import {
 import { config } from 'dotenv';
 import ENV from '../../../env';
 import { MemberService } from '../../member/member.service';
+import { DEFAULT_LEVEL } from '../constants';
 
 config();
 
@@ -57,7 +58,7 @@ export class GoogleStrategyService extends PassportStrategy(Strategy, 'google') 
       return await this.memberService.create({
         name: `${[req.user.firstName || '', req.user.lastName || ''].join(' ')}`,
         email: req.user.email,
-        level: 1,
+        level: DEFAULT_LEVEL,
       });
     }
   }

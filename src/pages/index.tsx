@@ -1,8 +1,16 @@
-import React, { FC } from 'react';
-import { Button } from 'antd';
+import React, { FC, useEffect } from 'react';
+import { Button, message } from 'antd';
 import styled from 'styled-components';
+import { NextRouter, useRouter } from 'next/router';
 
-const index: FC = () => {
+const Index: FC = () => {
+  const router: NextRouter = useRouter();
+  useEffect(() => {
+    const eCode: string = router?.query?.eCode as string;
+    if (eCode === '401') {
+      void message.warn(`접근 권한이 없습니다.`);
+    }
+  }, [router?.query]);
 
   return (<Container>
     <Inner>
@@ -23,7 +31,7 @@ const index: FC = () => {
   </Container>);
 };
 
-export default index;
+export default Index;
 
 const Container = styled.div`
   display: flex;
