@@ -1,7 +1,16 @@
-import React, { FC, useEffect } from 'react';
-import { Button, message } from 'antd';
+import React, {
+  FC,
+  useEffect
+} from 'react';
+import {
+  Button,
+  message
+} from 'antd';
 import styled from 'styled-components';
-import { NextRouter, useRouter } from 'next/router';
+import {
+  NextRouter,
+  useRouter
+} from 'next/router';
 
 const Index: FC = () => {
   const router: NextRouter = useRouter();
@@ -19,7 +28,7 @@ const Index: FC = () => {
       </div>
       <div>
         <Btn onClick={() => {
-          location.href ='/oauth-google';
+          location.href = '/oauth-google';
         }}>구글 로그인</Btn>
       </div>
       <div>
@@ -42,6 +51,7 @@ const Container = styled.div`
 
 const Inner = styled.div`
   text-align: center;
+
   & div {
     margin-bottom: 10px;
   }

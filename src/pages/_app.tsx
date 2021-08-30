@@ -30,5 +30,3 @@ MyApp.getInitialProps = async ({ Component, ctx }: AppContext): Promise<AppIniti
 };
 
 export default MyApp;
-
-
