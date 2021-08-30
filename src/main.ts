@@ -1,6 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './server/app.module';
 import { setupSwagger } from './server/swagger';
+import { config } from 'dotenv';
+config();
 
 const PORT: number = 11002;
 

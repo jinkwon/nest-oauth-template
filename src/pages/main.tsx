@@ -2,7 +2,6 @@ import { Button } from 'antd';
 import React, { FC, ReactNode } from 'react';
 import styled from 'styled-components';
 import ReactObjectTableViewer from 'react-object-table-viewer';
-import Router from 'next/router';
 
 interface PropTypes {
   children?: ReactNode;
@@ -16,7 +15,7 @@ const main: FC<PropTypes> = (props: PropTypes) => {
       <ObjectViewer data={props.member}/>
 
       <Button onClick={() => {
-        void Router.push('/auth/logout');
+        location.href = '/auth/logout';
       }}>로그아웃</Button>
     </Inner>
   </Container>);

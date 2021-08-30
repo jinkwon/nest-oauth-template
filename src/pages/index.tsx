@@ -36,6 +36,11 @@ const Index: FC = () => {
           location.href = '/oauth-kakao';
         }}>카카오 로그인</Btn>
       </div>
+      <div>
+        <Btn onClick={() => {
+          location.href = '/oauth-naver';
+        }}>네이버 로그인</Btn>
+      </div>
     </Inner>
   </Container>);
 };

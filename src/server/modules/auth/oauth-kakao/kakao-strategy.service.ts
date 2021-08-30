@@ -3,7 +3,6 @@ import { PassportStrategy } from '@nestjs/passport';
 import {
   Strategy,
 } from 'passport-kakao';
-import { config } from 'dotenv';
 import ENV from '../../../env';
 import { MemberService } from '../../member/member.service';
 import {
@@ -11,8 +10,6 @@ import {
   DEFAULT_LEVEL
 } from '../constants';
 import { CreateMemberDto } from '../../member/dto/request/create-member.dto';
-
-config();
 
 @Injectable()
 export class KakaoStrategyService extends PassportStrategy(Strategy, AuthType.Kakao) {

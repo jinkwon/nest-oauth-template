@@ -10,5 +10,6 @@ export const DEFAULT_LEVEL: number = 1;
 
 export const enum AuthType {
   Google = 'google',
-  Kakao = 'kakao'
+  Kakao = 'kakao',
+  Naver = 'naver',
 }

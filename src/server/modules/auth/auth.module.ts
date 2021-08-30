@@ -1,14 +1,16 @@
 import { Module } from '@nestjs/common';
-import { GoogleStrategyService } from './oauth-google/google-strategy.service';
-import { OauthGoogleController } from './oauth-google/oauth-google.controller';
 import { MemberModule } from '../member/member.module';
 import { AuthController } from './auth/auth.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConst } from './constants';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt-strategy.service';
-import { OauthKakaoController } from './oauth-kakao/oauth-kakao.controller';
+import { GoogleStrategyService } from './oauth-google/google-strategy.service';
+import { GoogleOauthController } from './oauth-google/google-oauth.controller';
+import { KakaoOauthController } from './oauth-kakao/kakao-oauth.controller';
 import { KakaoStrategyService } from './oauth-kakao/kakao-strategy.service';
+import { NaverStrategyService } from './oauth-naver/naver-strategy.service';
+import { NaverOauthController } from './oauth-naver/naver-oauth.controller';
 
 @Module({
   imports: [
@@ -22,18 +24,21 @@ import { KakaoStrategyService } from './oauth-kakao/kakao-strategy.service';
   providers: [
     GoogleStrategyService,
     KakaoStrategyService,
+    NaverStrategyService,
     JwtStrategy
   ],
   exports: [
     GoogleStrategyService,
     KakaoStrategyService,
+    NaverStrategyService,
     PassportModule,
     JwtStrategy,
   ],
   controllers: [
     AuthController,
-    OauthGoogleController,
-    OauthKakaoController,
+    GoogleOauthController,
+    KakaoOauthController,
+    NaverOauthController,
   ],
 })
 export class AuthModule {}

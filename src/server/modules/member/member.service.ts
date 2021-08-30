@@ -42,7 +42,10 @@ export class MemberService {
       memberId: member.memberId,
     }).save();
 
-    return member;
+    return {
+      ...member,
+      oauth: oauthMember,
+    };
   }
 
   findAll(opt?: FindManyOptions) {
@@ -58,11 +61,17 @@ export class MemberService {
     });
 
     if (oauthMember) {
-      return await this.repository.findOne({
+      const member = await this.repository.findOne({
         where: {
           memberId: oauthMember.memberId,
         }
       });
+      console.log(member, oauthMember);
+
+      return {
+        ...member,
+        oauth: oauthMember,
+      };
     } else {
       return null;
     }
