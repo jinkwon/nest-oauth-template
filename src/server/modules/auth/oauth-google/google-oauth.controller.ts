@@ -11,7 +11,9 @@ import {
   AuthType,
 } from '../constants';
 import OauthController from '../oauth.controller.abstract';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('oauth')
 @Controller('oauth-google')
 export class GoogleOauthController extends OauthController {
   constructor(

@@ -9,7 +9,9 @@ import { AuthGuard } from '@nestjs/passport';
 import { JwtService } from '@nestjs/jwt';
 import { AuthType } from '../constants';
 import OauthController from '../oauth.controller.abstract';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('oauth')
 @Controller('oauth-kakao')
 export class KakaoOauthController extends OauthController {
   constructor(
