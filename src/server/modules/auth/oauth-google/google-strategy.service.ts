@@ -2,17 +2,17 @@ import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import {
   Strategy,
-  VerifyCallback
 } from 'passport-google-oauth20';
 import { config } from 'dotenv';
 import ENV from '../../../env';
 import { MemberService } from '../../member/member.service';
-import { DEFAULT_LEVEL } from '../constants';
+import { AuthType, DEFAULT_LEVEL } from '../constants';
+import { CreateMemberDto } from '../../member/dto/request/create-member.dto';
 
 config();
 
 @Injectable()
-export class GoogleStrategyService extends PassportStrategy(Strategy, 'google') {
+export class GoogleStrategyService extends PassportStrategy(Strategy, AuthType.Google) {
 
   constructor(
     private readonly memberService: MemberService
@@ -25,41 +25,19 @@ export class GoogleStrategyService extends PassportStrategy(Strategy, 'google') 
     });
   }
 
-  async validate(accessToken: string, refreshToken: string, profile: any, done: VerifyCallback): Promise<any> {
-    const { name, emails, photos } = profile;
-    const member = {
-      email: emails[0].value,
-      firstName: name.givenName,
-      lastName: name.familyName,
-      picture: photos[0].value,
-      accessToken
+  async validate(accessToken: string, refreshToken: string, profile: any): Promise<any> {
+    const memberDto: CreateMemberDto = {
+      email: profile?.emails[0].value,
+      name: `${profile?.displayName || [profile?.name.givenName, profile?.name.familyName].join(' ')}`,
+      level: DEFAULT_LEVEL,
+      oauth: {
+        oauthPicture: profile?.photos[0].value,
+        oauthId: profile.id,
+        oauthEmail: profile?.emails[0].value,
+        oauthType: AuthType.Google,
+        oauthToken: accessToken,
+      }
     }
-    done(null, member);
-  }
-
-  async validateMember(email): Promise<any> {
-    const member = await this.memberService.findOneByEmail(email);
-    if (member && member.email === email) {
-      return member;
-    }
-    return null;
-  }
-
-  async googleLogin(req) {
-    if (!req.user) {
-      return 'No user from google';
-    }
-
-    const member = await this.validateMember(req.user.email);
-
-    if (member) {
-      return member;
-    } else {
-      return await this.memberService.create({
-        name: `${[req.user.firstName || '', req.user.lastName || ''].join(' ')}`,
-        email: req.user.email,
-        level: DEFAULT_LEVEL,
-      });
-    }
+    return await this.memberService.join(memberDto);
   }
 }

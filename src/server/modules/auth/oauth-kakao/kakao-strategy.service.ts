@@ -2,17 +2,20 @@ import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import {
   Strategy,
-  VerifyCallback
 } from 'passport-kakao';
 import { config } from 'dotenv';
 import ENV from '../../../env';
 import { MemberService } from '../../member/member.service';
-import { DEFAULT_LEVEL } from '../constants';
+import {
+  AuthType,
+  DEFAULT_LEVEL
+} from '../constants';
+import { CreateMemberDto } from '../../member/dto/request/create-member.dto';
 
 config();
 
 @Injectable()
-export class KakaoStrategyService extends PassportStrategy(Strategy, 'kakao') {
+export class KakaoStrategyService extends PassportStrategy(Strategy, AuthType.Kakao) {
 
   constructor(
     private readonly memberService: MemberService
@@ -22,42 +25,21 @@ export class KakaoStrategyService extends PassportStrategy(Strategy, 'kakao') {
       clientSecret: process.env.KAKAO_SECRET,
       callbackURL: `${ENV.host}/oauth-kakao/callback`,
     });
-    console.log(process.env.KAKAO_CLIENT_ID, process.env.KAKAO_SECRET);
   }
 
-  async validate(accessToken: string, refreshToken: string, profile: any, done: VerifyCallback): Promise<any> {
-    const member = {
+  async validate(accessToken: string, refreshToken: string, profile: any): Promise<any> {
+    const memberDto: CreateMemberDto = {
       email: profile?._json?.kakao_account?.email || '',
-      firstName: profile?.username,
-      picture: profile?._json?.properties?.profile_image,
-      accessToken
+      name: profile?.username,
+      level: DEFAULT_LEVEL,
+      oauth: {
+        oauthPicture: profile?._json?.properties?.profile_image,
+        oauthId: profile.id,
+        oauthEmail: profile?._json?.kakao_account?.email || '',
+        oauthType: AuthType.Kakao,
+        oauthToken: accessToken,
+      }
     }
-    done(null, member);
-  }
-
-  async validateMember(email): Promise<any> {
-    const member = await this.memberService.findOneByEmail(email);
-    if (member && member.email === email) {
-      return member;
-    }
-    return null;
-  }
-
-  async kakaoLogin(req) {
-    if (!req.user) {
-      return 'No user from kakao';
-    }
-
-    const member = await this.validateMember(req.user.email);
-
-    if (member) {
-      return member;
-    } else {
-      return await this.memberService.create({
-        name: `${[req.user.firstName || '', req.user.lastName || ''].join(' ')}`,
-        email: req.user.email,
-        level: DEFAULT_LEVEL,
-      });
-    }
+    return await this.memberService.join(memberDto);
   }
 }
