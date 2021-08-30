@@ -15,17 +15,17 @@ const Index: FC = () => {
   return (<Container>
     <Inner>
       <div>
-        <h2>Hello World</h2>
+        <h2>Oauth Template</h2>
       </div>
       <div>
-        <Button onClick={() => {
+        <Btn onClick={() => {
           location.href ='/oauth-google';
-        }}>구글 로그인</Button>
+        }}>구글 로그인</Btn>
       </div>
       <div>
-        <Button onClick={() => {
+        <Btn onClick={() => {
           location.href = '/oauth-kakao';
-        }}>카카오 로그인</Button>
+        }}>카카오 로그인</Btn>
       </div>
     </Inner>
   </Container>);
@@ -45,4 +45,9 @@ const Inner = styled.div`
   & div {
     margin-bottom: 10px;
   }
+`;
+
+const Btn = styled(Button)`
+  min-width: 200px;
+  font-size: 12px;
 `;
