@@ -9,8 +9,6 @@ function initialEnvSet(env: EnvType): Environment {
   if (process.env.NODE_ENV === 'test') {
     env = EnvType.Dev;
   }
-  console.log(env);
-
   switch (env) {
     case EnvType.Dev:
       return DEV;

@@ -6,38 +6,37 @@ import {
   UseGuards
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { GoogleStrategyService } from './google-strategy.service';
 import { JwtService } from '@nestjs/jwt';
-import { DEFAULT_LEVEL, jwtConst } from '../constants';
+import {
+  AuthType,
+  DEFAULT_LEVEL,
+  jwtConst
+} from '../constants';
 
 @Controller('oauth-google')
 export class OauthGoogleController {
   constructor(
     private readonly jwtService: JwtService,
-    private readonly service: GoogleStrategyService
   ) {
   }
 
   @Get()
-  @UseGuards(AuthGuard('google'))
-  async googleAuth(@Req() req) {
+  @UseGuards(AuthGuard(AuthType.Google))
+  async auth(@Req() req) {
   }
 
   @Get('callback')
-  @UseGuards(AuthGuard('google'))
-  async googleAuthRedirect(@Req() req, @Res() res) {
-    const member = await this.service.googleLogin(req);
-    const payload = {
-      name: member.name,
-      email: member.email,
-      level: member.level,
-    };
-
+  @UseGuards(AuthGuard(AuthType.Google))
+  async authCallback(@Req() req, @Res() res) {
+    const member = req.user;
     if (member.level < DEFAULT_LEVEL) {
       return res.redirect('/?eCode=401');
     }
-
-    const token: string = await this.jwtService.signAsync(payload);
+    const token: string = await this.jwtService.signAsync({
+      name: member.name,
+      email: member.email,
+      level: member.level,
+    });
     const secretData = {
       token,
       refreshToken: '',
@@ -45,7 +44,6 @@ export class OauthGoogleController {
     res.cookie(jwtConst.cookieName, secretData, {
       httpOnly: true,
     });
-
     const rst = {
       member,
       accessToken: token,

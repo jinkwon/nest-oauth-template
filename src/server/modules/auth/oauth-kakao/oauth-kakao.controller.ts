@@ -6,38 +6,33 @@ import {
   UseGuards
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { KakaoStrategyService } from './kakao-strategy.service';
 import { JwtService } from '@nestjs/jwt';
-import { DEFAULT_LEVEL, jwtConst } from '../constants';
+import { AuthType, DEFAULT_LEVEL, jwtConst } from '../constants';
 
 @Controller('oauth-kakao')
 export class OauthKakaoController {
   constructor(
     private readonly jwtService: JwtService,
-    private readonly service: KakaoStrategyService
   ) {
   }
 
   @Get()
-  @UseGuards(AuthGuard('kakao'))
-  async kakaoAuth(@Req() req) {
+  @UseGuards(AuthGuard(AuthType.Kakao))
+  async auth(@Req() req) {
   }
 
   @Get('callback')
-  @UseGuards(AuthGuard('kakao'))
-  async kakaoAuthRedirect(@Req() req, @Res() res) {
-    const member = await this.service.kakaoLogin(req);
-    const payload = {
-      name: member.name,
-      email: member.email,
-      level: member.level,
-    };
-
+  @UseGuards(AuthGuard(AuthType.Kakao))
+  async authRedirect(@Req() req, @Res() res) {
+    const member = req.user;
     if (member.level < DEFAULT_LEVEL) {
       return res.redirect('/?eCode=401');
     }
-
-    const token: string = await this.jwtService.signAsync(payload);
+    const token: string = await this.jwtService.signAsync({
+      name: member.name,
+      email: member.email,
+      level: member.level,
+    });
     const secretData = {
       token,
       refreshToken: '',
@@ -45,7 +40,6 @@ export class OauthKakaoController {
     res.cookie(jwtConst.cookieName, secretData, {
       httpOnly: true,
     });
-
     const rst = {
       member,
       accessToken: token,
