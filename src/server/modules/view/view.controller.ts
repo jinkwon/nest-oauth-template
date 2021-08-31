@@ -11,7 +11,6 @@ import { ViewService } from './view.service';
 import { ApiExcludeEndpoint } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { ViewAuthFilter } from '../auth/filter/view-auth.filter';
-import { jwtConst } from '../auth/constants';
 
 @Controller()
 export class ViewController {

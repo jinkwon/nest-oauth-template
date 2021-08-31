@@ -8,10 +8,6 @@ export function isTtlExpired(created: number | string, ttl: number) {
   return now > t + ttl * 1000;
 }
 
-function isNumeric(data) {
-  return !isNaN(data);
-}
-
 function isString(value) {
   return typeof value === 'string' || value instanceof String;
 }

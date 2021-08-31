@@ -8,7 +8,6 @@ import '../client/css/index.css';
 import React from 'react';
 
 const MyApp: NextComponentType<AppContext, AppInitialProps, AppProps> = ({ Component, pageProps }) => {
-
   return <>
     <meta charSet="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
